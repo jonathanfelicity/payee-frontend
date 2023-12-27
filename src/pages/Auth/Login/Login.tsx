@@ -1,15 +1,51 @@
-import React from "react";
-import LoginForm from "../forms/LoginForm";
 
-const Login: React.FC = () => {
- 
+const Login = () => {
   return (
-    <div className="h-screen flex flex-col md:flex-row">
-      <div className="w-full md:w-1/2 bg-gray-200 h-full">
-        {/* Background image */}
-      </div>
+    <div className="flex h-screen">
+      {/* Background Image */}
+      <div
+        className="hidden lg:block bg-cover w-1/2"
+        style={{ backgroundImage: "url('https://via.placeholder.com/700x500')" }}
+      ></div>
 
-      <LoginForm/>
+      {/* Login Form */}
+      <div className="w-full lg:w-1/2">
+        <form className="p-8">
+          <h2 className="text-2xl font-semibold mb-6 text-gray-800">Login</h2>
+          <div className="mb-4">
+            <label htmlFor="email" className="block text-gray-700 font-semibold mb-2">
+              Email Address
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Enter your email"
+              className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+              required
+            />
+          </div>
+          <div className="mb-6">
+            <label htmlFor="password" className="block text-gray-700 font-semibold mb-2">
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Enter your password"
+              className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+              required
+            />
+          </div>
+          <button
+            type="submit"
+            className="w-full bg-black text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+          >
+            Login
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

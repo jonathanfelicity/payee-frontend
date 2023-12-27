@@ -6,7 +6,7 @@ const Hero: React.FC = () => {
   );
 
   return (
-    <section className=" min-h-screen phone:flex items-center justify-between gap-6 mx-auto max-w-[60rem]">
+    <section className=" min-h-screen md:flex items-center justify-between gap-6 mx-auto max-w-[60rem]">
       <div className="w-full mb-8">
         <h1 className="text-4xl font-bold">Payee - E-wallet in your pocket 🤑</h1>
         <p className="mt-4 text-lg">
