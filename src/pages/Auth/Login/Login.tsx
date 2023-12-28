@@ -1,7 +1,11 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { useContext } from "react";
+import { AuthContext } from "../../../context/auth/auth.context";
+import { LoginCredentials } from "../../../interfaces/user.interface";
 
 const Login = () => {
+  const { handleLogin } = useContext(AuthContext);
   const initialValues = {
     email: "",
     password: "",
@@ -12,9 +16,9 @@ const Login = () => {
     password: Yup.string().required("Password is required"),
   });
 
-  const handleSubmit = (values: unknown) => {
-    // Handle form submission logic here
+  const handleSubmit = (values: LoginCredentials) => {
     console.log(values);
+    handleLogin(values);
   };
 
   return (

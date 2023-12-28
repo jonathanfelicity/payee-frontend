@@ -1,21 +1,24 @@
-import History from "../../components/layout/Dashboard/History";
-import UserInfo from "../../components/layout/Dashboard/UserInfo";
+
 import useAuth from "../../hooks/useAuth";
 
 const Dashboard = () => {
-  const { isAuthenticated } = useAuth();
-  console.log(isAuthenticated);
-
-
+  const { state } = useAuth();
+  const user = state.loginResponse?.data.user;
 
   return (
-    <main className="min-h-screen mx-6 mb-8 ">
-      <h2 className="text-3xl font-semibold my-4">Dashboard</h2>
-      <div className="flex flex-col-reverse phone:flex-row gap-7">
-
-        <History />
-        <UserInfo />
+    <main className="flex-col h-full w-full p-5 gap-5">
+      <div className="h-full">
+        <h1 className="text-2xl font-bold">Recent Transactions</h1>
+        <div className=""></div>
       </div>
+      {/* <div className="h-full p-20 bg-slate-300">
+        <h1 className="text-2xl font-bold ">Customer</h1>
+        {user && (
+          <h1 className="text-2xl font-bold text-gray-400">
+            {user.firstName} {user.lastName}
+          </h1>
+        )}
+      </div> */}
     </main>
   );
 };

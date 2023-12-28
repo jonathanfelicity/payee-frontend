@@ -35,7 +35,7 @@ const Header = () => {
           </div>
 
           {isAuthenticated ? (
-            <div className="flex flex-col gap-5 items-center justify-center phone:flex-row">
+            <div className="">
               <Link
                 to="/dashboard"
                 className="bg-black text-gray-300  px-3 py-2 rounded-md text-sm font-medium"
@@ -83,13 +83,14 @@ const Header = () => {
 
         {/* Slide-in menu */}
         <div
-          className={`fixed top-0 right-0 h-full bg-white z-30 shadow-md transition-all duration-300 transform ${isMenuOpen ? "translate-x-0" : "translate-x-full"
-            }`}
+          className={`fixed top-0 right-0 h-full bg-white z-30 shadow-md transition-all duration-300 transform ${
+            isMenuOpen ? "translate-x-0" : "translate-x-full"
+          }`}
           style={{ width: "250px" }}
         >
           <div className="h-full w-full flex flex-col gap-4 px-4 py-6">
             {isAuthenticated ? (
-              <div className="flex-col gap-5 items-center justify-center phone:flex-row">
+              <div className="">
                 <Link
                   to="/dashboard"
                   className="bg-black text-gray-300  px-3 py-2 rounded-md text-sm font-medium"

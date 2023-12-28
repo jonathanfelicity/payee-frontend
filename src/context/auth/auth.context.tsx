@@ -5,20 +5,23 @@ import React, {
   ReactNode,
   useEffect,
 } from "react";
-import { LoginCredentials } from "../../interfaces/user.interface";
+import {
+  LoginCredentials,
+  LoginResponse,
+} from "../../interfaces/user.interface";
 import authService from "../../services/auth";
 import { removeCookie, setCookie } from "../../utils/session";
 
 interface AuthState {
   isAuthenticated: boolean;
   token: string | null;
-  error: string | null;
+  loginResponse: LoginResponse | null; // Include the login response here
 }
 
 type Action =
   | { type: "LOGIN_REQUEST" }
-  | { type: "LOGIN_SUCCESS"; payload: any }
-  | { type: "LOGIN_FAILURE"; payload: any }
+  | { type: "LOGIN_SUCCESS"; payload: LoginResponse }
+  | { type: "LOGIN_FAILURE" }
   | { type: "LOGOUT" };
 
 export const AuthContext = createContext<{
@@ -30,7 +33,7 @@ export const AuthContext = createContext<{
   state: {
     isAuthenticated: false,
     token: null,
-    error: null,
+    loginResponse: null,
   },
   dispatch: () => {},
   handleLogin: async () => {},
@@ -52,28 +55,28 @@ const authReducer = (state: AuthState, action: Action): AuthState => {
         ...state,
         isAuthenticated: false,
         token: null,
-        error: null,
+        loginResponse: null,
       };
     case "LOGIN_SUCCESS":
       return {
         ...state,
         isAuthenticated: true,
-        token: action.payload,
-        error: null,
+        token: action.payload.data.access_token,
+        loginResponse: action.payload,
       };
     case "LOGIN_FAILURE":
       return {
         ...state,
         isAuthenticated: false,
         token: null,
-        error: action.payload as string,
+        loginResponse: null,
       };
     case "LOGOUT":
       return {
         ...state,
         isAuthenticated: false,
         token: null,
-        error: null,
+        loginResponse: null,
       };
     default:
       throw new Error("Unhandled action");
@@ -93,7 +96,7 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
     : {
         isAuthenticated: false,
         token: null,
-        error: null,
+        loginResponse: null,
       };
 
   const [state, dispatch] = useReducer(authReducer, initialState);
@@ -103,23 +106,22 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
       dispatch({ type: "LOGIN_REQUEST" });
 
       const user = await authService.login(values);
-      console.log(user);
-      if(user.success){
+
+      if (user.success) {
         dispatch({ type: "LOGIN_SUCCESS", payload: user });
         setCookie("token", user.data.access_token);
         setAuthDataToLocalStorage({
           isAuthenticated: true,
           token: user.data.access_token,
-          error: null,
-        })
+          loginResponse: user,
+        });
+      } else {
+        dispatch({ type: "LOGIN_FAILURE" });
+        setAuthDataToLocalStorage(null);
       }
-    } catch (error:any) {
-      dispatch({ type: "LOGIN_FAILURE", payload: error.message as string });
-      setAuthDataToLocalStorage({
-        isAuthenticated: false,
-        token: null,
-        error: error.message as string,
-      });
+    } catch (error) {
+      dispatch({ type: "LOGIN_FAILURE" });
+      setAuthDataToLocalStorage(null);
     }
   };
 
@@ -141,5 +143,3 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
     </AuthContext.Provider>
   );
 };
-
-

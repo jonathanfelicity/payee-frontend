@@ -1,17 +1,9 @@
 export interface IUser {
   id: number;
-  firstname: string;
-  lastname: string;
-  bvnDetails: {
-    bvn: string;
-    bvnDateOfBirth: string;
-  }
+  firstName: string;
+  lastName: string;
   email?: string;
-  gender?: string;
-  phoneNumber?: string;
-  // wallet?: IUserWallet;
-  //   notifications?: INotification[];
-  //   shop?: IShop;
+  walletId?: string;
 }
 
 export interface LoginCredentials {
@@ -34,11 +26,11 @@ export interface SignUpCredentials extends LoginCredentials {
 }
 
 export interface LoginResponse {
-  success: boolean,
+  success: boolean;
   data: {
     access_token: string;
     user: IUser;
-  }
+  };
 }
 
 export interface IUserWallet {
